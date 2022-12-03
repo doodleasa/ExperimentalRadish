@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model":  "experimentalradish:block/radish_block"}
+  }
+}

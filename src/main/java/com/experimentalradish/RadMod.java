@@ -1,9 +1,12 @@
 package com.experimentalradish;
 
+import com.experimentalradish.block.ModBlocks;
+import com.experimentalradish.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
@@ -22,5 +25,25 @@ import java.util.stream.Collectors;
 @Mod("experimentalradish")
 public class RadMod {
 
+    public static String MOD_ID = "experimentalradish";
+
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    public RadMod() {
+        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModItems.register(eventBus);
+        ModBlocks.register(eventBus);
+//        eventBus.addListener(this::setup);
+//
+//        eventBus.addListener(this::enqueueIMC);
+//
+//        eventBus.addListener(this::processIMC);
+//
+//        eventBus.addListener(this::doClientStuff);
+
+
+        MinecraftForge.EVENT_BUS.register(this);
+    }
 
 }
