@@ -4,7 +4,7 @@ import com.experimentalradish.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
-import net.minecraft.item.Items;
+
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -27,6 +27,7 @@ public class RadishCrop extends CropsBlock {
         super(builder);
     }
 
+    @Override
     protected IItemProvider getSeedsItem() {
         return ModItems.RADISH.get();
     }
