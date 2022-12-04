@@ -19,7 +19,7 @@ public class ModBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, RadMod.MOD_ID);
 
-    public static final RegistryObject<Block> RADISH_BLOCK = registerBlock("radish_block", () -> new Block(AbstractBlock.Properties.of(Material.STONE)));
+    public static final RegistryObject<Block> RADISH_BLOCK = registerBlock("radish_block", () -> new Block(AbstractBlock.Properties.create(Material.ROCK)));
 
     private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
@@ -28,7 +28,7 @@ public class ModBlocks {
     }
 
     private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block) {
-        ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(ModItemGroup.TAB_EXPERIMENTAL_RADISH)));
+        ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().group(ModItemGroup.TAB_EXPERIMENTAL_RADISH)));
 
 
     }

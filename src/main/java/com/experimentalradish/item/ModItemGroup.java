@@ -7,7 +7,7 @@ public class ModItemGroup {
 
     public static final ItemGroup TAB_EXPERIMENTAL_RADISH = new ItemGroup("experimentalRadishModTab") {
         @Override
-        public ItemStack makeIcon() {
+        public ItemStack createIcon() {
             return new ItemStack(ModItems.RADISH.get());
         }
     };
