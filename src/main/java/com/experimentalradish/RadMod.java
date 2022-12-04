@@ -35,6 +35,7 @@ public class RadMod {
     private void doClientStuff(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             RenderTypeLookup.setRenderLayer(ModBlocks.RADISH_CROP.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.RADISH_BLOCK.get(), RenderType.getCutout());
         });
     }
 

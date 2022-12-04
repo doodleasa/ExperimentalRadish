@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/crop",
   "textures": {
-    "crop": "minecraft:block/wheat_stage4"
+    "crop": "experimentalradish:block/radish_stage4"
   }
 }
