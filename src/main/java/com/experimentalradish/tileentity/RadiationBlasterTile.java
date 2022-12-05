@@ -74,13 +74,6 @@ public class RadiationBlasterTile extends TileEntity implements ITickableTileEnt
                 return super.insertItem(slot, stack, simulate);
             }
 
-            @Override
-            public int getSlotLimit(int slot) {
-                switch (slot) {
-                    case 0: return 1;
-                    default: return 64;
-                }
-            }
         };
     }
 
@@ -116,7 +109,6 @@ public class RadiationBlasterTile extends TileEntity implements ITickableTileEnt
             System.out.println(cookProgress == cookTime && this.itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && this.itemHandler.getStackInSlot(0).getCount() > 0);
             System.out.println("B");
             if (cookProgress == cookTime && this.itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && this.itemHandler.getStackInSlot(0).getCount() > 0) {
-                this.itemHandler.getStackInSlot(0).shrink(1);
                 cookProgress = 0;
 
                 //todo: give new radish with NBT data
