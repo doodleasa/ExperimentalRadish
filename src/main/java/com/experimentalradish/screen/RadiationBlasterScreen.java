@@ -31,6 +31,11 @@ public class RadiationBlasterScreen extends ContainerScreen<RadiationBlasterCont
         int j = this.guiTop;
         this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);
 
+        if(container.isWorking())
+        {
+            this.blit(matrixStack, i + 82, j + 9, 176, 0, 13, 17);
+        }
+
         //todo: working indicator (light up radiation symbol when machine is working)
         //https://youtu.be/4YgGqJgz2VY?t=1827
 

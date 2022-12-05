@@ -1,6 +1,7 @@
 package com.experimentalradish.container;
 
 import com.experimentalradish.block.ModBlocks;
+import com.experimentalradish.tileentity.RadiationBlasterTile;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -113,5 +114,10 @@ public class RadiationBlasterContainer extends Container {
         }
         sourceSlot.onTake(playerEntity, sourceStack);
         return copyOfSourceStack;
+    }
+
+    public boolean isWorking() {
+        RadiationBlasterTile tile = (RadiationBlasterTile) tileEntity;
+        return tile.isWorking();
     }
 }

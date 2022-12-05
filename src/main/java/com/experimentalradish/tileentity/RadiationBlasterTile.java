@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -17,10 +18,16 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class RadiationBlasterTile extends TileEntity {
+public class RadiationBlasterTile extends TileEntity implements ITickableTileEntity {
 
     private final ItemStackHandler itemHandler = createHandler();
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
+
+    private int cookProgress;
+
+    private final int cookTime = 300;
+
+    private int fuel;
 
     public RadiationBlasterTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
@@ -52,8 +59,7 @@ public class RadiationBlasterTile extends TileEntity {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
                 switch (slot) {
-                    case 0: return stack.getItem() == ModItems.RADISH.get();
-                    //todo: add radioactive thing
+                    case 0: return stack.getItem() == ModItems.RADISH_SEEDS.get();
                     case 1: return  stack.getItem() == Items.REDSTONE;
                     default: return false;
                 }
@@ -67,6 +73,14 @@ public class RadiationBlasterTile extends TileEntity {
                 }
                 return super.insertItem(slot, stack, simulate);
             }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                switch (slot) {
+                    case 0: return 1;
+                    default: return 64;
+                }
+            }
         };
     }
 
@@ -78,5 +92,35 @@ public class RadiationBlasterTile extends TileEntity {
         }
 
         return super.getCapability(cap, side);
+    }
+
+    public boolean isWorking() {
+        refuel();
+        return(fuel > 0);
+    }
+
+    public void refuel() {
+        if (itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && itemHandler.getStackInSlot(0).getCount() > 0 && this.itemHandler.getStackInSlot(1).getItem() == Items.REDSTONE && this.itemHandler.getStackInSlot(1).getCount() > 0 && fuel == 0)
+        {
+            this.itemHandler.getStackInSlot(1).shrink(1);
+            fuel = 300;
+        }
+    }
+
+    @Override
+    public void tick() {
+        if (isWorking()) {
+            cookProgress++;
+            fuel--;
+            System.out.println(cookProgress);
+            System.out.println(cookProgress == cookTime && this.itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && this.itemHandler.getStackInSlot(0).getCount() > 0);
+            System.out.println("B");
+            if (cookProgress == cookTime && this.itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && this.itemHandler.getStackInSlot(0).getCount() > 0) {
+                this.itemHandler.getStackInSlot(0).shrink(1);
+                cookProgress = 0;
+
+                //todo: give new radish with NBT data
+            }
+        }
     }
 }
