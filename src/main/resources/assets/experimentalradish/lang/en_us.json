@@ -1,9 +1,8 @@
 {
   "item.experimentalradish.radish": "Radish",
-
   "block.experimentalradish.radish_block": "Block of Radish",
-
   "block.experimentalradish.radish_crop": "Radish",
-
-  "itemGroup.experimentalRadishModTab": "Experimental Radishes"
+  "itemGroup.experimentalRadishModTab": "Experimental Radishes",
+  "block.experimentalradish.radiation_blaster": "Radiation Blaster",
+  "screen.experimentalradish.radiation_blaster": "Radiation Blaster"
 }

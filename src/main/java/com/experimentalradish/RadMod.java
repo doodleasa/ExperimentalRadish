@@ -1,9 +1,13 @@
 package com.experimentalradish;
 
 import com.experimentalradish.block.ModBlocks;
+import com.experimentalradish.container.ModContainers;
 import com.experimentalradish.item.ModItems;
+import com.experimentalradish.screen.RadiationBlasterScreen;
+import com.experimentalradish.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,6 +30,8 @@ public class RadMod {
 
         ModItems.register(eventBus);
         ModBlocks.register(eventBus);
+        ModContainers.register(eventBus);
+        ModTileEntities.register(eventBus);
 
         eventBus.addListener(this::doClientStuff);
 
@@ -36,6 +42,8 @@ public class RadMod {
         event.enqueueWork(() -> {
             RenderTypeLookup.setRenderLayer(ModBlocks.RADISH_CROP.get(), RenderType.getCutout());
             RenderTypeLookup.setRenderLayer(ModBlocks.RADISH_BLOCK.get(), RenderType.getCutout());
+
+            ScreenManager.registerFactory(ModContainers.RADIATION_BLASTER_CONTAINER.get(), RadiationBlasterScreen::new);
         });
     }
 

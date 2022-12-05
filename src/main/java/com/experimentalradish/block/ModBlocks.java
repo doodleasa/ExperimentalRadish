@@ -1,6 +1,7 @@
 package com.experimentalradish.block;
 
 import com.experimentalradish.RadMod;
+import com.experimentalradish.block.custom.RadiationBlasterBlock;
 import com.experimentalradish.block.custom.RadishCrop;
 import com.experimentalradish.item.ModItemGroup;
 import com.experimentalradish.item.ModItems;
@@ -23,6 +24,10 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> RADISH_BLOCK = registerBlock("radish_block",
             () -> new Block(AbstractBlock.Properties.create(Material.EARTH)));
+
+
+    public static final RegistryObject<Block> RADIATION_BLASTER = registerBlock("radiation_blaster",
+            () -> new RadiationBlasterBlock(AbstractBlock.Properties.create(Material.IRON)));
 
     public static final RegistryObject<Block> RADISH_CROP = BLOCKS.register("radish_crop",
             () -> new RadishCrop(AbstractBlock.Properties.from(Blocks.WHEAT)));

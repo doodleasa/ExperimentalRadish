@@ -22,8 +22,12 @@ public class RadiationBlasterTile extends TileEntity {
     private final ItemStackHandler itemHandler = createHandler();
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
-    public RadiationBlasterTile(TileEntityType<?> p_i48289_1_) {
-        super(p_i48289_1_);
+    public RadiationBlasterTile(TileEntityType<?> tileEntityTypeIn) {
+        super(tileEntityTypeIn);
+    }
+
+    public RadiationBlasterTile() {
+        this(ModTileEntities.RADIATION_BLASTER_TILE.get());
     }
 
     @Override
@@ -39,7 +43,7 @@ public class RadiationBlasterTile extends TileEntity {
     }
 
     private ItemStackHandler createHandler() {
-        return new ItemStackHandler(2) {
+        return new ItemStackHandler(3) {
             @Override
             protected void onContentsChanged(int slot) {
                 markDirty();
