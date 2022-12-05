@@ -22,7 +22,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "experimentalradish:radish"
+              "name": "experimentalradish:radish_seeds"
             }
           ]
         }
@@ -39,12 +39,12 @@
               "enchantment": "minecraft:fortune",
               "formula": "minecraft:binomial_with_bonus_count",
               "parameters": {
-                "extra": 5,
+                "extra": 2,
                 "probability": 0.5714286
               }
             }
           ],
-          "name": "experimentalradish:radish"
+          "name": "experimentalradish:radish_seeds"
         }
       ],
       "conditions": [
