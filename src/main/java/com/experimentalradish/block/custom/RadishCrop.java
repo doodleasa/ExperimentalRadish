@@ -11,6 +11,8 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 public class RadishCrop extends CropsBlock {
 
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
@@ -29,7 +31,7 @@ public class RadishCrop extends CropsBlock {
 
     @Override
     protected IItemProvider getSeedsItem() {
-        return ModItems.RADISH.get();
+        return ModItems.RADISH_SEEDS.get();
     }
 
     @Override
