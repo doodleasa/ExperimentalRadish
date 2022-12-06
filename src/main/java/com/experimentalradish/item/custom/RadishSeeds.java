@@ -1,24 +1,26 @@
 package com.experimentalradish.item.custom;
 
 import com.experimentalradish.block.ModBlocks;
+import com.experimentalradish.block.custom.RadishCrop;
 import com.experimentalradish.item.ModItems;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.potion.Effects;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
 public class RadishSeeds extends BlockItem {
     public static final String PATH = "experimentalradish.seeds.";
-
     private static final Random rand = new Random();
 
     public RadishSeeds(Properties properties) {
@@ -26,20 +28,36 @@ public class RadishSeeds extends BlockItem {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        if (Screen.hasShiftDown() && stack.getTag() != null) {
+    @Nonnull
+    public ActionResultType tryPlace(@Nonnull BlockItemUseContext context) {
+        ActionResultType result = super.tryPlace(context);
+        if (result == ActionResultType.SUCCESS) {
+            World world = context.getWorld();
+            BlockState state = world.getBlockState(context.getPos()).getBlockState();
+            Block block = state.getBlock();
+            if (block instanceof RadishCrop) {
+                ((RadishCrop) block).setMutations(context.getItem().getTag());
+            }
+
+        }
+        return result;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flagIn) {
+        if (stack.getTag() != null && stack.getTag().keySet().size() > 0) {
             tooltip.add(ITextComponent.getTextComponentOrEmpty(createNBTTooltip(stack.getTag())));
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
-    private String createNBTTooltip(CompoundNBT nbt) {
+    public static String createNBTTooltip(CompoundNBT nbt) {
         StringBuilder str = new StringBuilder();
         Set<String> keys = nbt.keySet();
         for (String key: keys) {
             str.append(key).append(": ").append(Objects.requireNonNull(nbt.get(key)).toString().trim()).append("\n");
         }
-        return str.toString();
+        return str.substring(0, str.length() - 1);
     }
 
     public static CompoundNBT initializeNBT() {
@@ -94,6 +112,7 @@ public class RadishSeeds extends BlockItem {
         }
         CompoundNBT nbt = stack.getTag();
 
+        //noinspection ConstantConditions
         int hunger = Math.min(Math.max(nbt.getInt(PATH + "hunger") + (rand.nextInt(4) - 2), 0), 10); //+- up to 2 (max 10 min 0)
         float saturation = Math.min(Math.max(nbt.getFloat(PATH + "saturation") + (rand.nextFloat() / 2 - 0.25f), 0), 1); //+- up to 0.25 (max 1 min 0)
         float growth = Math.min(Math.max(nbt.getFloat(PATH + "growth") + (rand.nextFloat() - 0.5f), 0), 2); //+- up to 0.5 (max 2 min 0)
@@ -112,10 +131,11 @@ public class RadishSeeds extends BlockItem {
             ListNBT list = (ListNBT) nbt.get(PATH + "effect");
             CompoundNBT randEffect = randEffect();
             boolean valid = true;
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).equals(randEffect))
-                {
+            //noinspection ConstantConditions
+            for (net.minecraft.nbt.INBT inbt : list) {
+                if (inbt.equals(randEffect)) {
                     valid = false;
+                    break;
                 }
             }
             if (valid) {
