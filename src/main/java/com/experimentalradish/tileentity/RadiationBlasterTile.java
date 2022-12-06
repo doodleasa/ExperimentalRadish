@@ -1,6 +1,7 @@
 package com.experimentalradish.tileentity;
 
 import com.experimentalradish.item.ModItems;
+import com.experimentalradish.item.custom.RadishSeeds;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -93,7 +94,7 @@ public class RadiationBlasterTile extends TileEntity implements ITickableTileEnt
     }
 
     public void refuel() {
-        if (itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && itemHandler.getStackInSlot(0).getCount() > 0 && this.itemHandler.getStackInSlot(1).getItem() == Items.REDSTONE && this.itemHandler.getStackInSlot(1).getCount() > 0 && fuel == 0)
+        if (fuel == 0 && itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && itemHandler.getStackInSlot(0).getCount() > 0 && this.itemHandler.getStackInSlot(1).getItem() == Items.REDSTONE && this.itemHandler.getStackInSlot(1).getCount() > 0)
         {
             this.itemHandler.getStackInSlot(1).shrink(1);
             fuel = 300;
@@ -102,16 +103,17 @@ public class RadiationBlasterTile extends TileEntity implements ITickableTileEnt
 
     @Override
     public void tick() {
-        if (isWorking()) {
+        if (isWorking() && !world.isRemote()) {
             cookProgress++;
             fuel--;
-            System.out.println(cookProgress);
-            System.out.println(cookProgress == cookTime && this.itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && this.itemHandler.getStackInSlot(0).getCount() > 0);
-            System.out.println("B");
             if (cookProgress == cookTime && this.itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && this.itemHandler.getStackInSlot(0).getCount() > 0) {
                 cookProgress = 0;
 
-                //todo: give new radish with NBT data
+                ItemStack radishes = this.itemHandler.getStackInSlot(0);
+                radishes.setTag(RadishSeeds.mutate(radishes));
+                if (radishes.getTag().getFloat(RadishSeeds.PATH + "decay") >= 1) {
+                    radishes.setCount(0);
+                }
             }
         }
     }
