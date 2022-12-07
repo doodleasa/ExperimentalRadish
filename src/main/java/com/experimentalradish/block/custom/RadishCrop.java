@@ -1,6 +1,7 @@
 package com.experimentalradish.block.custom;
 
 import com.experimentalradish.item.ModItems;
+import com.experimentalradish.item.custom.RadishItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
@@ -18,7 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
 
-public class RadishCrop extends CropsBlock {
+public class RadishCrop extends CropsBlock implements RadishItems {
     protected CompoundNBT mutations = new CompoundNBT();
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
             Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
@@ -50,7 +51,10 @@ public class RadishCrop extends CropsBlock {
     public List<ItemStack> getDrops(@Nonnull BlockState state, @Nonnull LootContext.Builder builder) {
         List<ItemStack> itemStacks = super.getDrops(state, builder);
         for (ItemStack stack: itemStacks) {
-            stack.setTag(this.mutations);
+            if (stack.getItem() instanceof RadishItems) {
+                stack.setTag(this.mutations);
+                ((RadishItems) stack.getItem()).setMutations(this.mutations);
+            }
         }
         return itemStacks;
     }

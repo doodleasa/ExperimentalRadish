@@ -1,6 +1,7 @@
 package com.experimentalradish.tileentity;
 
 import com.experimentalradish.item.ModItems;
+import com.experimentalradish.item.custom.RadishItems;
 import com.experimentalradish.item.custom.RadishSeeds;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
@@ -111,7 +112,7 @@ public class RadiationBlasterTile extends TileEntity implements ITickableTileEnt
 
                 ItemStack radishes = this.itemHandler.getStackInSlot(0);
                 radishes.setTag(RadishSeeds.mutate(radishes));
-                if (radishes.getTag().getFloat(RadishSeeds.PATH + "decay") >= 1) {
+                if (radishes.getTag().getFloat(RadishItems.PATH + "decay") >= 1) {
                     radishes.setCount(0);
                 }
             }

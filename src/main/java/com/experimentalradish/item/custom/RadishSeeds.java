@@ -19,9 +19,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class RadishSeeds extends BlockItem {
-    public static final String PATH = "experimentalradish.seeds.";
+public class RadishSeeds extends BlockItem implements RadishItems {
     private static final Random rand = new Random();
+    private CompoundNBT mutations;
 
     public RadishSeeds(Properties properties) {
         super(ModBlocks.RADISH_CROP.get(), properties);
@@ -61,6 +61,7 @@ public class RadishSeeds extends BlockItem {
     }
 
     public static CompoundNBT initializeNBT() {
+        String PATH = RadishItems.PATH;
         ListNBT list = new ListNBT();
         CompoundNBT nbt = new CompoundNBT();
         nbt.put(PATH + "effect", list);
@@ -74,6 +75,7 @@ public class RadishSeeds extends BlockItem {
     }
 
     public static CompoundNBT newEffect(String id, int potency, int duration) {
+        String PATH = RadishItems.PATH;
         CompoundNBT nbt = new CompoundNBT();
         nbt.putString(PATH + "effect.id", id);
         nbt.putInt(PATH + "effect.potency", potency);
@@ -105,6 +107,7 @@ public class RadishSeeds extends BlockItem {
     }
 
     public static CompoundNBT mutate(ItemStack stack) {
+        String PATH = RadishItems.PATH;
         assert stack.getItem() == ModItems.RADISH_SEEDS.get();
 
         if(!stack.hasTag()) {
@@ -139,10 +142,22 @@ public class RadishSeeds extends BlockItem {
                 }
             }
             if (valid) {
-                list.add(randEffect());
+                list.add(randEffect);
             }
             nbt.put(PATH + "effect", list);
         }
         return nbt;
+    }
+
+    @Override
+    public void setMutations(CompoundNBT mutations) {
+        this.mutations = mutations;
+        System.out.println("Added mutations to Radish: " + this.mutations + " " + mutations);
+    }
+
+    @Override
+    @Nullable
+    public CompoundNBT getMutations() {
+        return this.mutations;
     }
 }
