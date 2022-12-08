@@ -104,16 +104,21 @@ public class RadiationBlasterTile extends TileEntity implements ITickableTileEnt
 
     @Override
     public void tick() {
-        if (isWorking() && !world.isRemote()) {
-            cookProgress++;
+        if (isWorking()) {
             fuel--;
-            if (cookProgress == cookTime && this.itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && this.itemHandler.getStackInSlot(0).getCount() > 0) {
-                cookProgress = 0;
-
-                ItemStack radishes = this.itemHandler.getStackInSlot(0);
-                radishes.setTag(RadishSeeds.mutate(radishes));
-                if (radishes.getTag().getFloat(RadishItems.PATH + "decay") >= 1) {
-                    radishes.setCount(0);
+            if (!world.isRemote()) {
+                cookProgress++;
+                if(this.itemHandler.getStackInSlot(0).getItem() != ModItems.RADISH_SEEDS.get())
+                {
+                    cookProgress = 0;
+                }
+                if (cookProgress == cookTime && this.itemHandler.getStackInSlot(0).getItem() == ModItems.RADISH_SEEDS.get() && this.itemHandler.getStackInSlot(0).getCount() > 0) {
+                    cookProgress = 0;
+                    ItemStack radishes = this.itemHandler.getStackInSlot(0);
+                    radishes.setTag(RadishSeeds.mutate(radishes));
+                    if (radishes.getTag().getFloat(RadishItems.PATH + "decay") >= 1) {
+                        radishes.setCount(0);
+                    }
                 }
             }
         }
